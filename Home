@@ -1,0 +1,56 @@
+import tkinter as tk
+from tkinter import messagebox
+
+class ContaBancaria:
+    def __init__(self, saldo_inicial=0):
+        self.saldo = saldo_inicial
+
+    def depositar(self, valor):
+        self.saldo += valor
+
+    def sacar(self, valor):
+        if self.saldo >= valor:
+            self.saldo -= valor
+        else:
+            messagebox.showerror("Erro", "Saldo insuficiente!")
+
+def criar_conta():
+    global conta
+    saldo_inicial = float(entry_saldo_inicial.get())
+    conta = ContaBancaria(saldo_inicial)
+    atualizar_saldo()
+
+def depositar():
+    valor = float(entry_valor.get())
+    conta.depositar(valor)
+    atualizar_saldo()
+
+def sacar():
+    valor = float(entry_valor.get())
+    conta.sacar(valor)
+    atualizar_saldo()
+
+def atualizar_saldo():
+    label_saldo.config(text=f"Saldo: R$ {conta.saldo:.2f}")
+
+conta = None
+
+root = tk.Tk()
+root.title("Sistema Bancário")
+root.geometry("300x250")
+
+label_saldo = tk.Label(root, text="Saldo: R$ 0.00")
+entry_valor = tk.Entry(root)
+entry_saldo_inicial = tk.Entry(root)
+button_depositar = tk.Button(root, text="Depositar", command=depositar)
+button_sacar = tk.Button(root, text="Sacar", command=sacar)
+button_criar_conta = tk.Button(root, text="Criar Conta", command=criar_conta)
+
+label_saldo.pack()
+entry_valor.pack()
+entry_saldo_inicial.pack()
+button_depositar.pack()
+button_sacar.pack()
+button_criar_conta.pack()
+
+root.mainloop()
